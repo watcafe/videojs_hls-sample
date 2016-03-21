@@ -31,8 +31,10 @@
     .video-js .vjs-time-divider { display: block; }
     .video-js .vjs-duration { display: block; }
 
-
+    /* force display control bar under the movie */
+    .video-js .vjs-control-bar { bottom: -30px; background-color: #333; }
   </style>
+  
   <script src="bower_components/video.js/dist/video.js"></script>
   <script src="bower_components/hls.js/dist/hls.js"></script>
   <script src="lib/videojs-hlsjs.js"></script>
