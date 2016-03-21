@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Video.js HLS&Transcriptの検証</title>
+
+  <link href="bower_components/video.js/dist/video-js.css" rel="stylesheet">
+
+  <link href="lib/videojs-transcript/css/videojs-transcript.css" rel="alternate stylesheet">
+  <link href="lib/videojs-transcript/css/videojs-transcript2.css" rel="alternate stylesheet">
+  <link href="lib/videojs-transcript/css/videojs-transcript3.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .info {
+      background-color: #eee;
+      border: thin solid #333;
+      border-radius: 3px;
+      padding: 0 5px;
+      text-align: center;
+    }
+    .video-js {
+      margin: 40px auto;
+    }
+    
+    /* timeDisplay for old options */
+    /* https://github.com/videojs/video.js/issues/2507 */
+    .video-js .vjs-current-time { display: block; }
+    .video-js .vjs-time-divider { display: block; }
+    .video-js .vjs-duration { display: block; }
+
+
+  </style>
+  <script src="bower_components/video.js/dist/video.js"></script>
+  <script src="bower_components/hls.js/dist/hls.js"></script>
+  <script src="lib/videojs-hlsjs.js"></script>
+  <script src="lib/videojs-transcript/dist/videojs-transcript.js"></script>
+  </head>
+  <body>
+  <div class="info">
+    <p>
+      Video.js（Ver. 5系）にvideojs-contrib-hlsを合わせて、HLS対応をさせた上、videojs-transcript.jsで字幕対応をさせちゃう検証。
+    </p>
+  </div>
+  <div class="video-container">
+    <video id="video"
+           class="video-js vjs-default-skin vjs-big-play-centered"
+           height="300"
+           width="600"
+           controls
+           data-setup ='{ "controls": true, "preload": "auto", "LoadingSpinner": true, "inactivityTimeout": 0, "playbackRates": [0.5, 1, 1.5, 2], "caption": false, "controlBar": { "captionsButton": true, "volumeMenuButton":{"inline": false, "vertical": true }, "children": ["playToggle", "currentTimeDisplay", "timeDivider", "durationDisplay", "progressControl", "volumeMenuButton", "playbackRateMenuButton", "captionsButton", "fullscreenToggle"] } }'
+           >
+           <!--
+           // keep controls visible
+           http://stackoverflow.com/questions/13384276/videojs-keep-controls-visible
+           -->
+      <p>
+        Your browser doesn't support video. Please <a href="http://browsehappy.com/">upgrade your browser</a> to see the example.
+      </p>
+      <source src="http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8" type="application/vnd.apple.mpegurl">
+      <track kind="captions" src="lib/videojs-transcript/captions/captions.en.vtt" srclang="en" label="English">
+      <track kind="captions" src="lib/videojs-transcript/captions/captions.sv.vtt" srclang="sv" label="Swedish">
+      <track kind="captions" src="lib/videojs-transcript/captions/captions.ru.vtt" srclang="ru" label="Russian">
+      <track kind="captions" src="lib/videojs-transcript/captions/captions.ja.vtt" srclang="ja" label="Japanese">
+      <track kind="captions" src="lib/videojs-transcript/captions/captions.ar.vtt" srclang="ar" label="Arabic">
+    </video>
+    <div id="transcript"></div>
+  </div>
+  <script>
+    var video = videojs('video').ready(function(){
+        
+      // Set up any options.
+      var tsOptions = {
+        showTitle: true,
+        showTrackSelector: true,
+      };
+
+      // Initialize the plugin.
+      var transcript = this.transcript(tsOptions);
+
+      // Then attach the widget to the page.
+      var transcriptContainer = document.querySelector('#transcript');
+      transcriptContainer.appendChild(transcript.el()); 
+    }); 
+  </script>
+</body>
+</html>
